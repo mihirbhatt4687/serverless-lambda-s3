@@ -1,0 +1,25 @@
+service: s3-read
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  region: us-east-2
+  runtime: python3.9
+  iamRoleStatements:
+    - Effect: 'Allow'
+      Action: 
+        - 's3:Get*'
+        - 's3:List*'
+        - 's3-object-lambda:Get*'
+        - 's3-object-lambda:List*'
+      Resource: "*"
+
+functions:
+  s3-read:
+    handler: handler.lambda_handler
+    name: s3-read
+    description: It will read from s3 bucket
+    events:
+      - httpApi:
+          path: /
+          method: get
